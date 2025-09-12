@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Improved Seesaw Loading Animation</title>
+  <style>
+    :root {
+      --bg: #111;
+      --beam: #e9e6d6;
+      --ball: #b6eaff;
+      --text: #e0e0e0;
+      --fulcrum: #000000;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      font-family: Arial, sans-serif;
+      color: var(--text);
+    }
+
+    .loader {
+      text-align: center;
+    }
+
+    .seesaw {
+      position: relative;
+      width: 260px;
+      height: 120px;
+      margin: 0 auto 20px;
+    }
+
+    /* Improved fulcrum with solid trapezoid */
+    .fulcrum {
+      position: absolute;
+      left: 50%;
+      bottom: 33px;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 50px;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .fulcrum-body {
+      width: 100%;
+      height: 100%;
+      background: var(--fulcrum);
+      position: relative;
+      transform: perspective(10px) rotateX(5deg);
+      border: 3px solid var(--beam);
+      border-top: none;
+      box-sizing: border-box;
+    }
+
+    .fulcrum-body::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      height: 6px;
+      background: var(--beam);
+      border-radius: 2px;
+    }
+
+    /* Beam wrapper rotates around the center */
+    .beam-wrap {
+      position: absolute;
+      top: 35px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      transform-origin: center center;
+      animation: tilt 2s infinite ease-in-out;
+    }
+
+    /* The horizontal beam */
+    .beam {
+      position: absolute;
+      left: 5%;
+      width: 90%;
+      height: 2px;
+      background: var(--beam);
+    }
+
+    /* Ball rolling on top */
+    .ball {
+      position: absolute;
+      top: -10px; /* sits above the beam */
+      left: 10%;
+      width: 18px;
+      height: 18px;
+      background: var(--ball);
+      border-radius: 50%;
+      animation: roll 2s infinite ease-in-out;
+    }
+
+    /* Text styling */
+    .text {
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      line-height: 1.6;
+      text-align: center;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    /* Animations */
+    @keyframes tilt {
+      0% { transform: rotate(8deg); }
+      50% { transform: rotate(-8deg); }
+      100% { transform: rotate(8deg); }
+    }
+
+    @keyframes roll {
+      0%   { left: 10%; transform: rotate(0deg); }
+      50%  { left: 75%; transform: rotate(360deg); }
+      100% { left: 10%; transform: rotate(720deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader">
+    <div class="seesaw">
+      <div class="fulcrum" aria-hidden="true">
+        <div class="fulcrum-body"></div>
+      </div>
+
+      <!-- beam-wrap rotates around a pivot; ball is inside so it follows rotation -->
+      <div class="beam-wrap">
+        <div class="beam"></div>
+        <div class="ball" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="text">
+      SMALL PAUSES MATTER<br />
+      TO BUILD CLARITY
+    </div>
+  </div>
+
+  <script>
+    // ✅ Redirect to dashboard after 1 second
+    setTimeout(() => {
+      window.location.href = '../Pages/status.html'; // <-- replace with your dashboard path
+    }, 1000); // 1000ms = 1 second
+  </script>
+</body>
+</html>

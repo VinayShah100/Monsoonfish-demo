@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centered Illustration</title>
+    <link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+
+    <!-- Close Button -->
+    <button class="close-btn" onclick="window.location.href='../Index.html'">&times;</button>
+
+    <div class="container">
+        <div class="welcome-text">
+            <h1>feel balanced</h1>
+            <h2>take a deep breath</h2>
+        </div>
+
+        <!-- Illustration image -->
+        <div class="illustration">
+            <img src="../Img/face.png" alt="Illustration" class="head-svg">
+        </div>
+
+        <!-- Continue Button -->
+        <button class="continue-btn" id="continueBtn">
+            continue
+            <span class="arrow">➜</span>
+        </button>
+    </div>
+
+    <!-- JS Script to make button work -->
+    <script>
+        document.getElementById("continueBtn").addEventListener("click", function () {
+            // Replace with your next page file name
+            window.location.href = "../Pages/shape-balance.html";
+        });
+        // Close button functionality
+document.querySelector(".close-btn").addEventListener("click", () => {
+  alert("Close button clicked! You can replace this with navigation.");
+});
+
+// Continue button functionality
+document.querySelector(".continue-btn").addEventListener("click", () => {
+  // alert("Continue clicked! Add your next-page navigation here.");
+});
+
+// Option click functionality
+document.querySelectorAll(".option").forEach(option => {
+  option.addEventListener("click", () => {
+    document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+    option.classList.add("selected");
+  });
+});
+
+    </script>
+
+</body>
+</html>
