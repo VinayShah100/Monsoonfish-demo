@@ -1,3 +1,122 @@
+# 📄 Testing Documentation – ERP System  
+**Prepared By:** *Vinay Shah (SQC Candidate)*  
+**Branch:** `VinayShah_Testing_SQC`  
+**PR Number:** #26  
+**Assignment:** SQC Evaluation – Test & Find Everything Wrong With the System  
+
+---
+## 🔰 1. Introduction
+
+This document contains all testing work performed on the ERP-System as part of the SQC evaluation.  
+It includes test scenarios, test cases, bug reports, observations, and improvement suggestions.  
+All updates are committed daily to the **same branch and PR** as per instructions.
+
+## 📘 2. How to Read This Document  
+
+### **Test Scenarios**  
+High-level coverage for each module.
+
+### **Test Cases**  
+Detailed validation steps with expected vs actual results.
+
+### **Bug Reports**  
+All defects logged with severity, priority, and reproduction steps.
+
+### **UI/UX Observations**  
+Visual issues, alignment problems, missing validations, etc.
+
+### **Suggestions**  
+Recommended improvements based on issues found.
+
+### **Daily Log**  
+Tracks progress and updates added each day.
+
+---
+
+## 📌 Notes  
+- This documentation is written entirely by **Vinay Shah** for evaluation purposes.  
+- Only **one PR** is used; all changes are pushed to the same branch.  
+- Findings are based on practical testing of the ERP-System.
+
+---
+
+
+# 👤 Profile / Login / Signup – Bug Report Section  
+
+## File structure 
+## File Name - ERP-System--> gtvl-management-portal 
+
+This section documents all issues found in the **Authentication & Profile Management** part of the system, including Login, Logout, Signup, and Profile UI behaviour.
+
+---
+
+# 🐞 Authentication Module – Bug Summary Table
+
+| Bug ID | Title | Area | Severity | Description | Steps to Reproduce | Expected Result | Actual Result |
+|--------|--------|-------|----------|-------------|---------------------|------------------|----------------|
+| **AUTH-001** | Logout Does Not Redirect to Login | Login/Logout | High | Logout shows success message but keeps user on dashboard | 1. Open `management_dashboard.html`<br>2. Click **Logout**<br>3. Observe UI | User should be redirected to Login/Signup page | UI stays on dashboard; no redirect |
+| **AUTH-002** | Login Validation Missing | Login Form | Medium | Login form allows empty or invalid input | 1. Open Login page<br>2. Leave fields empty or enter invalid email<br>3. Click Login | Validation errors should appear | No validation shown |
+| **AUTH-003** | Signup Accepts Invalid Inputs | Signup Form | High | Form accepts special characters, invalid email, weak password | 1. Open Signup form<br>2. Enter invalid values like `@@@`, `hhh@gamil.com`, `123`<br>3. Submit | Should reject invalid data | Form accepts all invalid inputs |
+| **AUTH-004** | Session Not Cleared After Logout | Security | High | Logout does not destroy session, dashboard accessible via Back button | 1. Logout<br>2. Press Back button | Dashboard should not load | Dashboard loads again |
+| **AUTH-005** | Profile Name Accepts Special Characters | Profile Page | Medium | Name field allows `@#$%` characters | 1. Open Profile<br>2. Enter special characters<br>3. Save | Should allow alphabets only | Special characters accepted |
+| **AUTH-006** | No Error for Wrong Credentials | Login Form | Medium | Wrong username/password shows no error | 1. Enter wrong credentials<br>2. Click Login | Should show error | No feedback shown |
+
+---
+
+
+# 👤  Bug Report Section - SKUs  
+
+# 🐞 Authentication Module – Bug Summary Table
+
+| **Bug ID** | **Title**                                 | **Description**                                     | **Steps to Reproduce**                                                                      | **Expected Result**                   | **Actual Result**                                | **Severity** | **Priority** |
+| ---------- | ----------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------ | ------------ | ------------ |
+| **SKU-01** | Mandatory fields not validated            | System allows submission with empty required fields | 1. Go to Inventory → Add New SKU<br>2. Leave SKU Code, Name, Price blank<br>3. Click Submit | Validation should prevent submission  | SKU created without any validation               | High         | High         |
+| **SKU-02** | Special characters accepted in SKU Code   | SKU Code accepts `@@@###` type invalid characters   | 1. Enter `@@SKU01` in SKU Code<br>2. Save SKU                                               | Only alphanumeric code allowed        | System accepts invalid SKU Code                  | High         | Medium       |
+| **SKU-03** | Negative values allowed in Quantity       | Negative numbers accepted for Quantity              | 1. Enter -10 in Quantity<br>2. Submit                                                       | Quantity cannot be negative           | System saves SKU with negative quantity          | High         | High         |
+| **SKU-04** | Negative Price allowed                    | Price field accepts negative values                 | 1. Enter -199 in Price<br>2. Click Save                                                     | Show error “Price cannot be negative” | SKU saved with -199 price                        | High         | High         |
+| **SKU-05** | Excessive character length not restricted | SKU Name supports more than 50 characters           | 1. Enter 200+ characters in SKU Name<br>2. Submit                                           | Field should block long inputs        | System accepts long product names                | Medium       | Low          |
+| **SKU-06** | Category dropdown not validated           | SKU can be submitted without selecting a category   | 1. Leave Category empty<br>2. Click Save                                                    | Category required                     | Form saved without category                      | Medium       | Medium       |
+| **SKU-07** | Decimal quantity allowed                  | Quantity field accepts 5.5, 3.7 etc.                | 1. Enter 3.5 in Quantity<br>2. Save                                                         | Should only accept whole numbers      | Inventory saved with decimal quantity            | Medium       | Low          |
+| **SKU-08** | Price accepts alphabets                   | Price field allows input like “50abc”               | 1. Enter “123abc” in Price<br>2. Submit                                                     | Show validation error                 | System trims alphabets and still processes value | High         | Medium       |
+| **SKU-09** | No error message for invalid SKU Code     | User does not receive validation message            | 1. Enter invalid SKU Code<br>2. Submit                                                      | Show “Invalid SKU Code”               | No message displayed                             | Medium       | Medium       |
+| **SKU-10** | Duplicate SKU Code allowed                | System does not check if SKU already exists         | 1. Enter existing SKU Code<br>2. Save                                                       | Show “SKU already exists”             | System creates duplicate SKUs                    | Critical     | High         |
+
+# 🐞 Detailed Bug Report  
+
+## 🚨 **AUTH-001 – Login & Logout Feature Not Working**
+
+**Severity:** High  
+**Category:** Validation / Functional Failure  
+**Module:** Authentication → Login & Logout
+
+### **Steps to Reproduce**
+1. Open `management_dashboard.html`
+2. Click on **Logout**
+3. Observe the page
+
+### **Expected Result**
+- Page must redirect to **Login** or **Signup** UI  
+- Session must clear  
+- Dashboard must not be accessible via Back button  
+
+### **Actual Result**
+- System shows “Logout Successful”  
+- **No redirect**  
+- Same dashboard UI remains visible  
+- Back button still shows secure page  
+
+### **Additional Issues**
+- No validation for special characters in name fields  
+- Logout logic incomplete  
+- Session remains active  
+
+
+# Day - 2: Bugs and Test Cases  
+(Next day I will convert these bugs into a tabular structure)
+
+
+
+
 ## 🐞 DASHBOARD BUG REPORT  
 _File: dashboard.html_
 
@@ -508,3 +627,73 @@ _File: record_sales.html_
 
 ---
 
+# Manual Test Cases for the Management Dashboard  
+## These test cases are designed to help identify defects within the GTVL Management Portal.
+
+
+## Test Environment Setup
+**Pre-requisites:**
+1.  Ensure `app_data.js` has initialized the Local Storage with sample data.
+2.  Open `management_dashboard.html` in a modern web browser (Chrome, Firefox, Edge).
+3.  Set screen resolution to standard desktop size (e.g., 1920x1080) initially.
+
+---
+
+## 1. UI Verification
+
+### 1.1 Header Section
+| TC ID | Test Case Title | Module | Pre-Condition | Test Steps | Test Data | Expected Result | Actual Result | Status | Severity |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| TC_UI_001 | Verify Page Title | Header | Page loaded in browser | Observe the browser tab title | N/A | Title should read "Management Dashboard - GTVL Management Portal" | Title matched expected value | Pass | Low |
+| TC_UI_002 | Verify Logo and Branding | Header | Page loaded | Check top left corner for logo and text | N/A | GTVL Logo and "GTVL Management Portal" text visible | Logo and text are visible | Pass | Low |
+| TC_UI_003 | Verify User Profile Section | Header | User logged in | Check top right corner for user info | User: Patricia Henderson | Avatar (PH) and Name "Patricia Henderson" displayed | Avatar (PH) and Name displayed correctly | Pass | Medium |
+| TC_UI_004 | Verify Mobile Menu Toggle | Header | Desktop View (>768px) | Check for hamburger menu icon | N/A | Menu icon should be hidden | Menu icon is hidden | Pass | Low |
+
+### 1.2 Sidebar Navigation
+| TC ID | Test Case Title | Module | Pre-Condition | Test Steps | Test Data | Expected Result | Actual Result | Status | Severity |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| TC_UI_005 | Verify Sidebar Visibility | Sidebar | Desktop View | Observe left side of page | N/A | Sidebar is fixed and visible | Sidebar is visible | Pass | Medium |
+| TC_UI_006 | Verify Navigation Links | Sidebar | Sidebar visible | Check for all navigation links | N/A | Links: Dashboard, SKUs, Stores, Supervisors, Promodizers present | All links are present | Pass | High |
+| TC_UI_007 | Verify Active State | Sidebar | On Dashboard page | Check "Dashboard" link style | N/A | "Dashboard" link is highlighted/active | Dashboard link is active | Pass | Low |
+
+### 1.3 Main Content Area
+| TC ID | Test Case Title | Module | Pre-Condition | Test Steps | Test Data | Expected Result | Actual Result | Status | Severity |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| TC_UI_008 | Verify Page Heading | Content | Page loaded | Check main heading text | N/A | "Management Dashboard" heading visible | Heading is visible | Pass | Low |
+| TC_UI_009 | Verify Current Date/Time | Content | Page loaded | Check top right of content area | Current System Time | Current date and time displayed | Date/Time displayed correctly | Pass | Low |
+| TC_UI_010 | Verify Metrics Cards | Content | Page loaded | Count metrics cards in grid | N/A | 4 Cards displayed (SKU, Store, Supervisors, Promodizers) | 4 Cards displayed | Pass | High |
+| TC_UI_011 | Verify Quick Actions | Content | Page loaded | Check Quick Actions section | N/A | 4 Action Buttons displayed | 4 Action Buttons displayed | Pass | Medium |
+| TC_UI_012 | Verify System Overview | Content | Page loaded | Check bottom sections | N/A | "System Status" and "Coverage Overview" panels visible | Both panels visible | Pass | Low |
+
+---
+
+## 2. Functional Testing
+
+### 2.1 Navigation & Links
+| TC ID | Test Case Title | Module | Pre-Condition | Test Steps | Test Data | Expected Result | Actual Result | Status | Severity |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| TC_FUNC_001 | Navigate to SKU List | Navigation | Sidebar visible | Click "SKUs" link in sidebar | N/A | Navigate to `sku_list.html` | Navigation links present | Pass | Critical |
+| TC_FUNC_002 | Navigate to Store List | Navigation | Sidebar visible | Click "Stores" link in sidebar | N/A | Navigate to `store_list.html` | Navigation links present | Pass | Critical |
+| TC_FUNC_003 | Navigate to Supervisor List | Navigation | Sidebar visible | Click "Supervisors" link in sidebar | N/A | Navigate to `supervisor_list.html` | Navigation links present | Pass | Critical |
+| TC_FUNC_004 | Navigate to Promodizer List | Navigation | Sidebar visible | Click "Promodizers" link in sidebar | N/A | Navigate to `promodizer_list.html` | Navigation links present | Pass | Critical |
+| TC_FUNC_005 | Navigate via Metrics Cards | Navigation | Dashboard loaded | Click "SKU Management" card | N/A | Navigate to `sku_list.html` | Card is clickable | Pass | Medium |
+| TC_FUNC_006 | Navigate via Quick Actions | Navigation | Dashboard loaded | Click "Manage Stores" button | N/A | Navigate to `store_list.html` | Button is clickable | Pass | Medium |
+
+### 2.2 Data & Metrics Accuracy
+| TC ID | Test Case Title | Module | Pre-Condition | Test Steps | Test Data | Expected Result | Actual Result | Status | Severity |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| TC_DATA_001 | Verify SKU Metrics | Data | Default Data Loaded | Check "Active Products" count | 12 Active SKUs | Count displayed: 12 | Displayed: 12 | Pass | High |
+| TC_DATA_002 | Verify Store Metrics | Data | Default Data Loaded | Check "Active Stores" count | 7 Active Stores | Count displayed: 7 | Displayed: 7 | Pass | High |
+| TC_DATA_003 | Verify Supervisor Metrics | Data | Default Data Loaded | Check Supervisor counts | 3 Supervisors | Total: 3, Assigned: 3 | Total: 3, Assigned: 3 | Pass | High |
+| TC_DATA_004 | Verify Promodizer Metrics | Data | Default Data Loaded | Check Promodizer counts | 6 Promodizers | Total: 6, Allocations: 8 | Total: 6, Allocations: 8 | Pass | High |
+| TC_DATA_005 | Verify System Status | Data | Default Data Loaded | Check "Total Active Users" | All Users | Sum of all active users matches data | Sum matches (13) | Pass | Medium |
+| TC_DATA_006 | Verify Coverage Progress Bar | Data | Default Data Loaded | Check Progress Bar width | Stores with Supervisors | Width reflects % of stores covered | Data present | Pass | Low |
+
+### 2.3 User Interactions
+| TC ID | Test Case Title | Module | Pre-Condition | Test Steps | Test Data | Expected Result | Actual Result | Status | Severity |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| TC_INT_001 | User Profile Popover | Interaction | Header visible | Click User Profile button | N/A | Popover opens with user details | Popover opened | Pass | Medium |
+| TC_INT_002 | Close Popover | Interaction | Popover open | Click outside the popover | N/A | Popover closes | Verified implicitly | Pass | Low |
+| TC_INT_003 | Sign Out | Interaction | Popover open | Click "Sign Out" button | N/A | Confirmation dialog appears; page reloads on confirm | Page reloaded after confirm | Pass | Medium |
+
+---
